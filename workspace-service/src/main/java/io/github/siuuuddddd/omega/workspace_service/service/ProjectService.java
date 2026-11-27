@@ -1,0 +1,23 @@
+package io.github.siuuuddddd.omega.workspace_service.service;
+
+
+import io.github.siuuuddddd.omega.common_lib.enums.ProjectPermission;
+import io.github.siuuuddddd.omega.workspace_service.dto.project.ProjectRequest;
+import io.github.siuuuddddd.omega.workspace_service.dto.project.ProjectResponse;
+import io.github.siuuuddddd.omega.workspace_service.dto.project.ProjectSummaryResponse;
+
+import java.util.List;
+
+public interface ProjectService {
+    List<ProjectSummaryResponse> getUserProjects();
+
+    ProjectSummaryResponse getUserProjectById(Long id);
+
+    ProjectResponse createProject(ProjectRequest request);
+
+    ProjectResponse updateProject(Long id, ProjectRequest request);
+
+    void softDelete(Long id);
+
+    boolean hasPermission(Long projectId, ProjectPermission permission);
+}

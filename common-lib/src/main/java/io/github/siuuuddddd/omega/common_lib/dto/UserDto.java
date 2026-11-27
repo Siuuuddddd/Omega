@@ -1,0 +1,8 @@
+package io.github.siuuuddddd.omega.common_lib.dto;
+
+public record UserDto(
+        Long id,
+        String username,
+        String name
+) {
+}

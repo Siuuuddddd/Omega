@@ -1,0 +1,68 @@
+name: omega
+services:
+  config-service:
+    image: eclipse-temurin:21-jre
+    working_dir: /app
+    volumes:
+      - ./config-service/target:/app:ro
+    env_file: .env
+    environment:
+      CONFIG_SERVER_URL: http://config-service:8888
+    ports:
+      - "8888:8888"
+    command: ["java", "-jar", "/app/config-service-0.0.1-SNAPSHOT.jar"]
+  discovery-service:
+    image: eclipse-temurin:21-jre
+    working_dir: /app
+    volumes:
+      - ./discovery-service/target:/app:ro
+    env_file: .env
+    environment:
+      CONFIG_SERVER_URL: http://config-service:8888
+    ports:
+      - "8761:8761"
+    command: ["java", "-jar", "/app/discovery-service-0.0.1-SNAPSHOT.jar"]
+  account-service:
+    image: eclipse-temurin:21-jre
+    working_dir: /app
+    volumes:
+      - ./account-service/target:/app:ro
+    env_file: .env
+    environment:
+      CONFIG_SERVER_URL: http://config-service:8888
+    ports:
+      - "9050:9050"
+    command: ["java", "-jar", "/app/account-service-0.0.1-SNAPSHOT.jar"]
+  api-gateway:
+    image: eclipse-temurin:21-jre
+    working_dir: /app
+    volumes:
+      - ./api-gateway/target:/app:ro
+    env_file: .env
+    environment:
+      CONFIG_SERVER_URL: http://config-service:8888
+    ports:
+      - "8080:8080"
+    command: ["java", "-jar", "/app/api-gateway-0.0.1-SNAPSHOT.jar"]
+  workspace-service:
+    image: eclipse-temurin:21-jre
+    working_dir: /app
+    volumes:
+      - ./workspace-service/target:/app:ro
+    env_file: .env
+    environment:
+      CONFIG_SERVER_URL: http://config-service:8888
+    ports:
+      - "9020:9020"
+    command: ["java", "-jar", "/app/workspace-service-0.0.1-SNAPSHOT.jar"]
+  intelligence-service:
+    image: eclipse-temurin:21-jre
+    working_dir: /app
+    volumes:
+      - ./intelligence-service/target:/app:ro
+    env_file: .env
+    environment:
+      CONFIG_SERVER_URL: http://config-service:8888
+    ports:
+      - "9030:9030"
+    command: ["java", "-jar", "/app/intelligence-service-0.0.1-SNAPSHOT.jar"]

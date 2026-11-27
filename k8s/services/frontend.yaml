@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: omega-frontend
+  namespace: omega-core
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: omega-frontend
+  template:
+    metadata:
+      labels:
+        app: omega-frontend
+    spec:
+      containers:
+        - name: omega-frontend
+          image: ${IMAGE_NAMESPACE}/omega-frontend:${IMAGE_TAG}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: omega-frontend
+  namespace: omega-core
+spec:
+  type: ClusterIP
+  selector:
+    app: omega-frontend
+  ports:
+    - port: 80
+      targetPort: 80

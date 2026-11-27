@@ -1,0 +1,57 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: omega-main-ingress
+  namespace: omega-core
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+spec:
+  ingressClassName: "nginx"
+  rules:
+  # 1. Main Website Route (The Frontend!)
+  - host: "${APP_HOST}"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: omega-frontend
+            port:
+              number: 80
+              
+  - host: "${APP_HOST}"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: omega-frontend
+            port:
+              number: 80
+
+  # 2. Previews Route
+  - host: "*.${PREVIEW_DOMAIN}"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: omega-me-proxy
+            port:
+              number: 80
+  
+  # 3. API Gateway Route
+  - host: "${API_HOST}"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: api-gateway
+            port:
+              number: 80
